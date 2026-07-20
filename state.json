@@ -5,9 +5,9 @@
     "since": "2026-07-20T19:36:34Z"
   },
   "https://choosemeservices.com": {
-    "status": "up",
-    "last_code": "200",
-    "since": "2026-07-20T19:36:34Z"
+    "status": "down",
+    "last_code": "500",
+    "since": "2026-07-20T21:59:45Z"
   },
   "https://askeugenius.com": {
     "status": "up",
