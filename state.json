@@ -18,5 +18,10 @@
     "status": "up",
     "last_code": "200",
     "since": "2026-07-20T19:36:34Z"
+  },
+  "https://choosemeservices.com/monitor-live-test-fake-page": {
+    "status": "down",
+    "last_code": "404",
+    "since": "2026-07-20T22:04:52Z"
   }
 }
