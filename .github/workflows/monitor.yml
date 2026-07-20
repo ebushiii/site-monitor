@@ -1,0 +1,48 @@
+name: Site Monitor
+on:
+  schedule:
+    - cron: "*/5 * * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: monitor
+  cancel-in-progress: false
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check sites
+        id: check
+        env:
+          TWILIO_ACCOUNT_SID: ${{ secrets.TWILIO_ACCOUNT_SID }}
+          TWILIO_AUTH_TOKEN: ${{ secrets.TWILIO_AUTH_TOKEN }}
+          ALERT_PHONE: ${{ secrets.ALERT_PHONE }}
+        run: |
+          set +e
+          bash check.sh
+          echo "result=$?" >> "$GITHUB_OUTPUT"
+
+      - name: Commit state (and monthly heartbeat to keep the schedule alive)
+        run: |
+          if [[ ! -f .heartbeat || $(( $(date +%s) - $(cat .heartbeat) )) -gt 2592000 ]]; then
+            date +%s > .heartbeat
+          fi
+          if [[ -n "$(git status --porcelain state.json .heartbeat)" ]]; then
+            git config user.name "site-monitor-bot"
+            git config user.email "actions@users.noreply.github.com"
+            git add state.json .heartbeat
+            git commit -m "state: $(date -u +'%Y-%m-%d %H:%M') UTC"
+            git pull --rebase && git push
+          fi
+
+      - name: Fail on new outage (triggers GitHub email as backup alert)
+        if: steps.check.outputs.result != '0'
+        run: |
+          echo "A site just went DOWN — see the 'Check sites' step above."
+          exit 1
