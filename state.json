@@ -1,0 +1,22 @@
+{
+  "https://lynnettefranklin.com": {
+    "status": "up",
+    "last_code": "200",
+    "since": "2026-07-20T19:36:34Z"
+  },
+  "https://choosemeservices.com": {
+    "status": "up",
+    "last_code": "200",
+    "since": "2026-07-20T19:36:34Z"
+  },
+  "https://askeugenius.com": {
+    "status": "up",
+    "last_code": "200",
+    "since": "2026-07-20T19:36:34Z"
+  },
+  "https://www.etreproductions.com": {
+    "status": "up",
+    "last_code": "200",
+    "since": "2026-07-20T19:36:34Z"
+  }
+}
